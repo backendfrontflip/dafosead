@@ -1,110 +1,127 @@
-// src/admin/layout/Sidebar.jsx
+// src/admin/layout/SideBar.jsx
 import React, { useState } from 'react';
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import 'react-pro-sidebar/dist/css/styles.css';
+import { Box, IconButton, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import {
-  Drawer, IconButton, Typography, Box, List, ListItem, ListItemIcon,
-  ListItemText, Divider, Collapse, Avatar
-} from '@mui/material';
-import {
-  Menu as MenuIcon, Home, Group, LocationCity, People, BarChart, PieChart,
-  ShowChart, Map, ExpandLess, ExpandMore, AddCircle
+  HomeOutlined, PeopleOutlined, ContactsOutlined, ReceiptOutlined,
+  PersonAddOutlined, CalendarTodayOutlined, HelpOutline, BarChartOutlined,
+  PieChartOutline, TimelineOutlined, MapOutlined, MenuOutlined,
+  PinDropOutlined
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+
+const Item = ({ title, to, icon, selected, setSelected }) => (
+  <MenuItem
+    active={selected === title}
+    icon={icon}
+    style={{
+      color: 'white',
+      backgroundColor: selected === title ? '#700a0aff' : 'transparent',
+    }}
+    onClick={() => setSelected(title)}
+  >
+    <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Typography fontSize="16px">{title}</Typography>
+    </Link>
+  </MenuItem>
+);
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(true);
-  const [dataOpen, setDataOpen] = useState(true);
-  const [chartsOpen, setChartsOpen] = useState(true);
-  const navigate = useNavigate();
-
-  const handleToggle = () => setOpen(!open);
-  const handleDataToggle = () => setDataOpen(!dataOpen);
-  const handleChartsToggle = () => setChartsOpen(!chartsOpen);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [selected, setSelected] = useState('Dashboard');
 
   return (
-    <Drawer variant="permanent" open={open}>
-      <Box sx={{ bgcolor: 'red', height: '100vh', width: open ? 250 : 80, color: 'white', transition: '0.3s' }}>
-        {/* Header */}
-        <Box display="flex" alignItems="center" justifyContent="space-between" px={2} py={2}>
-          <Typography variant="h6" fontWeight="bold">ADMIN</Typography>
-          <IconButton onClick={handleToggle} sx={{ color: 'white' }}><MenuIcon /></IconButton>
-        </Box>
+    <Box
+      sx={{
+        height: '100vh',
+        '& .pro-sidebar-inner': {
+          background: '#b71c1c !important', // red background
+        },
+        '& .pro-icon-wrapper': {
+          backgroundColor: 'transparent !important',
+        },
+        '& .pro-inner-item': {
+          padding: '5px 20px !important',
+          color: 'white !important',
+        },
+        '& .pro-inner-item:hover': {
+          background: '#424242 !important', // gray hover
+        },
+        '& .pro-menu-item.active': {
+          background: '#700a0aff !important', // deep red active
+        },
+      }}
+    >
+      <ProSidebar collapsed={isCollapsed}>
+        <Menu iconShape="square">
+          {/* Collapse Toggle */}
+          <MenuItem
+            icon={<MenuOutlined />}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            style={{ marginBottom: 20 }}
+          >
+            {!isCollapsed && (
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography fontSize="20px" fontWeight="bold" color="white">
+                  ADMIN
+                </Typography>
+                <IconButton sx={{ color: 'white' }}>
+                  <MenuOutlined />
+                </IconButton>
+              </Box>
+            )}
+          </MenuItem>
 
-        {/* Profile */}
-        {open && (
-          <Box textAlign="center" mb={2}>
-            <Avatar src="https://i.pravatar.cc/100" sx={{ width: 70, height: 70, mx: 'auto' }} />
-            <Typography variant="h6">John Doe</Typography>
-            <Typography variant="body2">Administrator</Typography>
+          {/* Profile */}
+          {!isCollapsed && (
+            <Box mb="25px">
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <img
+                  alt="profile-user"
+                  width="80px"
+                  height="80px"
+                  src={`/assets/user.png`}
+                  style={{ cursor: 'pointer', borderRadius: '50%' }}
+                />
+              </Box>
+              <Box textAlign="center" mt={1}>
+                <Typography fontSize="16px" fontWeight="bold" color="white">
+                  Silas Bello
+                </Typography>
+                <Typography fontSize="14px" color="white">
+                  COO DAFOSEAD
+                </Typography>
+              </Box>
+            </Box>
+          )}
+
+          {/* Navigation */}
+          <Box paddingLeft={isCollapsed ? undefined : '10%'}>
+            <Item title="Dashboard" to="/admin" icon={<HomeOutlined />} selected={selected} setSelected={setSelected} />
+
+            <Typography sx={{ m: '15px 0 5px 20px', color: 'white', fontSize: '14px' }}>Data</Typography>
+            <Item title="Team" to="/admin/team" icon={<PeopleOutlined />} selected={selected} setSelected={setSelected} />
+            <Item title="Staffs" to="/admin/staffs" icon={<ContactsOutlined />} selected={selected} setSelected={setSelected} />
+            <Item title="Invoices Balances" to="/admin/revenue" icon={<ReceiptOutlined />} selected={selected} setSelected={setSelected} />
+            <Item title="Branches" to="/admin/branches" icon={<PinDropOutlined />} selected={selected} setSelected={setSelected} />
+
+            <Typography sx={{ m: '15px 0 5px 20px', color: 'white', fontSize: '14px' }}>Pages</Typography>
+            <Item title="Staff Form" to="/admin/staff-form" icon={<PersonAddOutlined />} selected={selected} setSelected={setSelected} />
+            <Item title="Calendar" to="/admin/calendar" icon={<CalendarTodayOutlined />} selected={selected} setSelected={setSelected} />
+            <Item title="FAQ Page" to="/admin/faq" icon={<HelpOutline />} selected={selected} setSelected={setSelected} />
+
+            <Typography sx={{ m: '15px 0 5px 20px', color: 'white', fontSize: '14px' }}>Charts</Typography>
+            <SubMenu title="Charts" icon={<BarChartOutlined />} style={{ color: 'white' }}>
+              <Item title="Bar Chart" to="/admin/charts/bar" icon={<BarChartOutlined />} selected={selected} setSelected={setSelected} />
+              <Item title="Pie Chart" to="/admin/charts/pie" icon={<PieChartOutline />} selected={selected} setSelected={setSelected} />
+              <Item title="Line Chart" to="/admin/charts/line" icon={<TimelineOutlined />} selected={selected} setSelected={setSelected} />
+              <Item title="Geography Chart" to="/admin/charts/geo" icon={<MapOutlined />} selected={selected} setSelected={setSelected} />
+            </SubMenu>
           </Box>
-        )}
-
-        <Divider />
-
-        {/* Dashboard */}
-        <List>
-          <ListItem button onClick={() => navigate("/")}>
-            <ListItemIcon sx={{ color: 'white' }}><Home /></ListItemIcon>
-            {open && <ListItemText primary="Dashboard" />}
-          </ListItem>
-
-          {/* Data Section */}
-          <ListItem button onClick={handleDataToggle}>
-            <ListItemText primary="Data" />
-            {dataOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={dataOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button onClick={() => navigate("/team")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><Group /></ListItemIcon>
-                <ListItemText primary="Team" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/branches")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><LocationCity /></ListItemIcon>
-                <ListItemText primary="Branches" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/staffs")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><People /></ListItemIcon>
-                <ListItemText primary="Staffs" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/staff-form")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><AddCircle /></ListItemIcon>
-                <ListItemText primary="Staff Form" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/revenue")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><BarChart /></ListItemIcon>
-                <ListItemText primary="Revenue" />
-              </ListItem>
-            </List>
-          </Collapse>
-
-          {/* Charts Section */}
-          <ListItem button onClick={handleChartsToggle}>
-            <ListItemText primary="Charts" />
-            {chartsOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={chartsOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button onClick={() => navigate("/charts/bar")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><BarChart /></ListItemIcon>
-                <ListItemText primary="Bar Chart" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/charts/pie")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><PieChart /></ListItemIcon>
-                <ListItemText primary="Pie Chart" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/charts/line")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><ShowChart /></ListItemIcon>
-                <ListItemText primary="Line Chart" />
-              </ListItem>
-              <ListItem button onClick={() => navigate("/charts/geo")} sx={{ pl: 4 }}>
-                <ListItemIcon sx={{ color: 'white' }}><Map /></ListItemIcon>
-                <ListItemText primary="Geography" />
-              </ListItem>
-            </List>
-          </Collapse>
-        </List>
-      </Box>
-    </Drawer>
+        </Menu>
+      </ProSidebar>
+    </Box>
   );
 };
 
