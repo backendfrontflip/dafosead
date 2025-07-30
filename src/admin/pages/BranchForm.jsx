@@ -7,14 +7,14 @@ import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
-const StaffForm = () => {
+const BranchForm = () => {
   const [formData, setFormData] = useState({
-    staffId: '',
-    name: '',
-    age: '',
-    email: '',
+    branchName: '',
+    managerName: '',
     phone: '',
-    branch: '',
+    email: '',
+    address: '',
+    numOfStaffs: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -29,13 +29,13 @@ const StaffForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await addDoc(collection(db, 'staffs'), formData);
+      await addDoc(collection(db, 'branches'), formData);
       setSuccess(true);
       setTimeout(() => {
-        navigate('/admin/staffs');
+        navigate('/admin/branches');
       }, 1500);
     } catch (err) {
-      console.error('Error adding staff:', err);
+      console.error('Error adding branch:', err);
     } finally {
       setLoading(false);
     }
@@ -45,14 +45,14 @@ const StaffForm = () => {
     <Box p={4}>
       {loading && <LoadingSpinner />}
       <Paper elevation={3} sx={{ width: '100%', margin: 'auto', p: 4 }}>
-        <Typography variant="h5" color="error" gutterBottom>Add Staff</Typography>
+        <Typography variant="h5" color="error" gutterBottom>Add New Branch</Typography>
         <form onSubmit={handleSubmit}>
-          <TextField fullWidth label="Staff ID" name="staffId" onChange={handleChange} margin="normal" required />
-          <TextField fullWidth label="Name" name="name" onChange={handleChange} margin="normal" required />
-          <TextField fullWidth label="Age" name="age" onChange={handleChange} margin="normal" required />
+          <TextField fullWidth label="Branch Name" name="branchName" onChange={handleChange} margin="normal" required />
+          <TextField fullWidth label="Manager Name" name="managerName" onChange={handleChange} margin="normal" required />
+          <TextField fullWidth label="Phone" name="phone" onChange={handleChange} margin="normal" required />
           <TextField fullWidth label="Email" name="email" onChange={handleChange} margin="normal" required />
-          <TextField fullWidth label="Phone Number" name="phone" onChange={handleChange} margin="normal" required />
-          <TextField fullWidth label="Branch" name="branch" onChange={handleChange} margin="normal" required />
+          <TextField fullWidth label="Address" name="address" onChange={handleChange} margin="normal" required />
+          <TextField fullWidth label="Number of Staffs" name="numOfStaffs" onChange={handleChange} margin="normal" required />
           <Button
             type="submit"
             variant="contained"
@@ -66,10 +66,10 @@ const StaffForm = () => {
       </Paper>
 
       <Snackbar open={success} autoHideDuration={3000}>
-        <Alert severity="success" sx={{ width: '100%' }}>Staff added successfully!</Alert>
+        <Alert severity="success" sx={{ width: '100%' }}>Branch added successfully!</Alert>
       </Snackbar>
     </Box>
   );
 };
 
-export default StaffForm;
+export default BranchForm;

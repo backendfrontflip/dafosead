@@ -12,24 +12,32 @@ import BarChart from './pages/charts/BarChart';
 import PieChart from './pages/charts/PieChart';
 import LineChart from './pages/charts/LineChart';
 import GeographyMap from './pages/charts/Geography';
+import TopBar from './layout/TopBar';
+import TeamForm from './pages/TeamForm';
+import BranchForm from './pages/BranchForm';
 
 const AdminApp = () => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar />
-      <div style={{ flexGrow: 1, padding: '20px' }}>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/staffs" element={<Staffs />} />
-          <Route path="/staff-form" element={<StaffForm />} />
-          <Route path="/branches" element={<Branches />} />
-          <Route path="/revenue" element={<Revenue />} />
-          <Route path="/charts/bar" element={<BarChart />} />
-          <Route path="/charts/pie" element={<PieChart />} />
-          <Route path="/charts/line" element={<LineChart />} />
-          <Route path="/charts/geo" element={<GeographyMap />} />
-        </Routes>
+      <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <TopBar />
+        <div style={{ flexGrow: 1, overflowY: 'auto', padding: '20px' }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/team-form" element={<TeamForm />} />
+            <Route path="/staffs" element={<Staffs />} />
+            <Route path="/staff-form" element={<StaffForm />} />
+            <Route path="/branches" element={<Branches />} />
+            <Route path="/branches/new" element={<BranchForm />} />
+            <Route path="/revenue" element={<Revenue />} />
+            <Route path="/charts/bar" element={<BarChart />} />
+            <Route path="/charts/pie" element={<PieChart />} />
+            <Route path="/charts/line" element={<LineChart />} />
+            <Route path="/charts/geo" element={<GeographyMap />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

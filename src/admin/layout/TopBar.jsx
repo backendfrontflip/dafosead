@@ -8,6 +8,7 @@ const Topbar = () => {
       display="flex"
       justifyContent="space-between"
       p={2}
+      m={2}
       sx={{
         backgroundColor: '#b71c1c',
         color: 'white',

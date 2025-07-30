@@ -1,15 +1,27 @@
-// src/admin/layout/SideBar.jsx
 import React, { useState } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+
 import {
-  HomeOutlined, PeopleOutlined, ContactsOutlined, ReceiptOutlined,
-  PersonAddOutlined, CalendarTodayOutlined, HelpOutline, BarChartOutlined,
-  PieChartOutline, TimelineOutlined, MapOutlined, MenuOutlined,
-  PinDropOutlined
+  HomeOutlined,
+  PeopleOutlined,
+  ContactsOutlined,
+  ReceiptOutlined,
+  PersonAddOutlined,
+  CalendarTodayOutlined,
+  HelpOutline,
+  BarChartOutlined,
+  PieChartOutline, // Renamed below
+  TimelineOutlined,
+  MapOutlined,
+  MenuOutlined,
+  PinDropOutlined,
 } from '@mui/icons-material';
+
+// Rename PieChartOutline to avoid confusion
+const PieChartOutlineIcon = PieChartOutline;
 
 const Item = ({ title, to, icon, selected, setSelected }) => (
   <MenuItem
@@ -36,7 +48,7 @@ const Sidebar = () => {
       sx={{
         height: '100vh',
         '& .pro-sidebar-inner': {
-          background: '#b71c1c !important', // red background
+          background: '#b71c1c !important', // Red background
         },
         '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
@@ -46,10 +58,10 @@ const Sidebar = () => {
           color: 'white !important',
         },
         '& .pro-inner-item:hover': {
-          background: '#424242 !important', // gray hover
+          background: '#424242 !important', // Gray hover
         },
         '& .pro-menu-item.active': {
-          background: '#700a0aff !important', // deep red active
+          background: '#700a0aff !important', // Deep red active
         },
       }}
     >
@@ -66,14 +78,11 @@ const Sidebar = () => {
                 <Typography fontSize="20px" fontWeight="bold" color="white">
                   ADMIN
                 </Typography>
-                <IconButton sx={{ color: 'white' }}>
-                  <MenuOutlined />
-                </IconButton>
               </Box>
             )}
           </MenuItem>
 
-          {/* Profile */}
+          {/* Profile Section */}
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -81,7 +90,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="80px"
                   height="80px"
-                  src={`/assets/user.png`}
+                  src="/assets/user.png"
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />
               </Box>
@@ -96,7 +105,7 @@ const Sidebar = () => {
             </Box>
           )}
 
-          {/* Navigation */}
+          {/* Navigation Items */}
           <Box paddingLeft={isCollapsed ? undefined : '10%'}>
             <Item title="Dashboard" to="/admin" icon={<HomeOutlined />} selected={selected} setSelected={setSelected} />
 
@@ -114,7 +123,7 @@ const Sidebar = () => {
             <Typography sx={{ m: '15px 0 5px 20px', color: 'white', fontSize: '14px' }}>Charts</Typography>
             <SubMenu title="Charts" icon={<BarChartOutlined />} style={{ color: 'white' }}>
               <Item title="Bar Chart" to="/admin/charts/bar" icon={<BarChartOutlined />} selected={selected} setSelected={setSelected} />
-              <Item title="Pie Chart" to="/admin/charts/pie" icon={<PieChartOutline />} selected={selected} setSelected={setSelected} />
+              <Item title="Pie Chart" to="/admin/charts/pie" icon={<PieChartOutlineIcon />} selected={selected} setSelected={setSelected} />
               <Item title="Line Chart" to="/admin/charts/line" icon={<TimelineOutlined />} selected={selected} setSelected={setSelected} />
               <Item title="Geography Chart" to="/admin/charts/geo" icon={<MapOutlined />} selected={selected} setSelected={setSelected} />
             </SubMenu>
